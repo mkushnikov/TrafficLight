@@ -10,13 +10,6 @@ TrafficLight myTL;
 Timer myTimer;
 Input myInput;
 
-// Чистка консоли
-// Кажется платформо-зависимое, но для начала сойдёт))
-void clearConsole()
-{
-    system("cls");
-}
-
 // Основная функция для вывода
 // Контролирует отрисовку, реагируя на ввод
 void displayTL()
@@ -27,7 +20,7 @@ void displayTL()
         // Обновляем, если не "пауза"
         if (myTL.isStarted)
         {
-            clearConsole();
+            myTL.clearConsole();
             myTL.showControllInfo();
             myTL.updateTLState();
             myTL.drawTL();

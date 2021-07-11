@@ -57,6 +57,11 @@ void TrafficLight::drawGreen()
     showLight(greenCircle);
 }
 
+void TrafficLight::clearConsole()
+{
+    system("cls");
+}
+
 void TrafficLight::showControllInfo()
 {
     cout << "The Traffic Light @kust" << endl;

@@ -106,6 +106,9 @@ public:
     // Отрисовываем нужный цвет в зависимости от стейта
     void drawTL();
 
+    // Чистка консоли
+    void clearConsole();
+
     TrafficLight();
     ~TrafficLight();
 };
