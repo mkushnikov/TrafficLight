@@ -3,8 +3,6 @@
 
 #include "TrafficLight.h"
 
-#include <conio.h>
-
 class Input
 {
 private:
@@ -15,8 +13,5 @@ public:
     // Контролирует переменные, по которым отрабатывает вывод
     // Реагирует только на латинские буквы
     void handleInput(TrafficLight &tl);
-
-    Input();
-    ~Input();
 };
 #endif

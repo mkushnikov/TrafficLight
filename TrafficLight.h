@@ -4,72 +4,26 @@
 #include <string>
 #include <vector>
 
-using std::string;
-using std::vector;
-
-// Список состояний светофора для отрисовки
-enum class TrafficLightStates
-{
-    EMPTY,
-    RED,
-    YELLOW,
-    GREEN
-};
-// Список направлений переключения цветов
-enum class ColorChangeDirection
-{
-    FORWARD,
-    REVERSE
-};
-
 class TrafficLight
 {
 private:
     //Макс. кол-во миганий для жёлтого
-    const int yellowSwitchesMaxCount = 4;
+    static const int yellowSwitchesMaxCount;
 
     // Символьная графика для цветов светофора
-    const vector<string> emptyCircle = {
-        "    ---   ",
-        "  /     \\  ",
-        " /       \\ ",
-        "|         |",
-        " \\       / ",
-        "  \\     /  ",
-        "    ---    "};
+    static const std::vector<std::string> emptyCircle;
 
-    const vector<string> redCircle = {
-        "    ---   ",
-        "  / RRR \\  ",
-        " / RRRRR \\ ",
-        "| RRRRRRR |",
-        " \\ RRRRR / ",
-        "  \\ RRR /  ",
-        "    ---    "};
+    static const std::vector<std::string> redCircle;
 
-    const vector<string> yellowCircle = {
-        "    ---   ",
-        "  / YYY \\  ",
-        " / YYYYY \\ ",
-        "| YYYYYYY |",
-        " \\ YYYYY / ",
-        "  \\ YYY /  ",
-        "    ---    "};
+    static const std::vector<std::string> yellowCircle;
 
-    const vector<string> greenCircle = {
-        "    ---   ",
-        "  / GGG \\  ",
-        " / GGGGG \\ ",
-        "| GGGGGGG |",
-        " \\ GGGGG / ",
-        "  \\ GGG /  ",
-        "    ---    "};
+    static const std::vector<std::string> greenCircle;
 
     // Счётчик миганий
     int currentYellowSwitchesCount;
 
     // Функция для отрисовки цветов светофора
-    void showLight(vector<string> circle);
+    void showLight(std::vector<std::string> circle);
 
     // Функции для отрисовки светофора в конкретном стейте
     void drawEmpty();
@@ -78,12 +32,28 @@ private:
     void drawGreen();
 
 public:
+    // Список состояний светофора для отрисовки
+    enum States
+    {
+        EMPTY,
+        RED,
+        YELLOW,
+        GREEN
+    };
+
+    // Список направлений переключения цветов
+    enum SwitchDirection
+    {
+        FORWARD,
+        REVERSE
+    };
+
     // Тайминг для красного цвета
-    const int redTimeSwitch = 2;
+    static const int redTimeSwitch;
     // Тайминг для зелёного цвета
-    const int greenTimeSwitch = 3;
+    static const int greenTimeSwitch;
     // Частота мигания жёлтого
-    const int yellowTimeBlinkFrequency = 1;
+    static const int yellowTimeBlinkFrequency;
 
     // Определяет, запущено переключение или нет
     bool isStarted;
@@ -91,9 +61,9 @@ public:
     bool isFinished;
 
     // Состояние светофора
-    TrafficLightStates trafficLightState;
+    States trafficLightState;
     // Направление переключений
-    ColorChangeDirection currentDirection;
+    SwitchDirection currentDirection;
     // Используется для смены состояний светофора по время мигания жёлтого
     bool isYellowBlinking;
 
@@ -109,7 +79,14 @@ public:
     // Чистка консоли
     void clearConsole();
 
-    TrafficLight();
-    ~TrafficLight();
+    TrafficLight()
+        : isStarted(true),
+          isFinished(false),
+          isYellowBlinking(false),
+          trafficLightState(States::EMPTY),
+          currentDirection(SwitchDirection::FORWARD),
+          currentYellowSwitchesCount(0)
+    {
+    }
 };
 #endif

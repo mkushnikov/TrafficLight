@@ -4,22 +4,49 @@
 
 using std::cout;
 using std::endl;
+using std::string;
+using std::vector;
 
-TrafficLight::TrafficLight()
-{
-    isStarted = true;
-    isFinished = false;
+const int TrafficLight::yellowTimeBlinkFrequency = 1;
+const int TrafficLight::yellowSwitchesMaxCount = 4;
+const int TrafficLight::redTimeSwitch = 2;
+const int TrafficLight::greenTimeSwitch = 3;
 
-    trafficLightState = TrafficLightStates::EMPTY;
-    currentDirection = ColorChangeDirection::FORWARD;
+const std::vector<std::string> TrafficLight::emptyCircle = {
+    "    ---   ",
+    "  /     \\  ",
+    " /       \\ ",
+    "|         |",
+    " \\       / ",
+    "  \\     /  ",
+    "    ---    "};
 
-    isYellowBlinking = false;
-    currentYellowSwitchesCount = 0;
-}
+const std::vector<std::string> TrafficLight::redCircle = {
+    "    ---   ",
+    "  / RRR \\  ",
+    " / RRRRR \\ ",
+    "| RRRRRRR |",
+    " \\ RRRRR / ",
+    "  \\ RRR /  ",
+    "    ---    "};
 
-TrafficLight::~TrafficLight()
-{
-}
+const std::vector<std::string> TrafficLight::yellowCircle = {
+    "    ---   ",
+    "  / YYY \\  ",
+    " / YYYYY \\ ",
+    "| YYYYYYY |",
+    " \\ YYYYY / ",
+    "  \\ YYY /  ",
+    "    ---    "};
+
+const std::vector<std::string> TrafficLight::greenCircle = {
+    "    ---   ",
+    "  / GGG \\  ",
+    " / GGGGG \\ ",
+    "| GGGGGGG |",
+    " \\ GGGGG / ",
+    "  \\ GGG /  ",
+    "    ---    "};
 
 void TrafficLight::showLight(vector<string> circle)
 {
@@ -76,16 +103,16 @@ void TrafficLight::drawTL()
 {
     switch (trafficLightState)
     {
-    case TrafficLightStates::EMPTY:
+    case States::EMPTY:
         drawEmpty();
         break;
-    case TrafficLightStates::RED:
+    case States::RED:
         drawRed();
         break;
-    case TrafficLightStates::YELLOW:
+    case States::YELLOW:
         drawYellow();
         break;
-    case TrafficLightStates::GREEN:
+    case States::GREEN:
         drawGreen();
         break;
     default:
@@ -97,45 +124,45 @@ void TrafficLight::updateTLState()
 {
     switch (trafficLightState)
     {
-    case TrafficLightStates::EMPTY:
+    case States::EMPTY:
         if (isYellowBlinking)
         {
-            trafficLightState = TrafficLightStates::YELLOW;
+            trafficLightState = States::YELLOW;
             currentYellowSwitchesCount++;
         }
         else
         {
-            trafficLightState = TrafficLightStates::RED;
+            trafficLightState = States::RED;
         }
         break;
-    case TrafficLightStates::RED:
-        trafficLightState = TrafficLightStates::YELLOW;
-        currentDirection = ColorChangeDirection::FORWARD;
+    case States::RED:
+        trafficLightState = States::YELLOW;
+        currentDirection = SwitchDirection::FORWARD;
         isYellowBlinking = true;
         break;
-    case TrafficLightStates::YELLOW:
+    case States::YELLOW:
         if (isYellowBlinking && currentYellowSwitchesCount < yellowSwitchesMaxCount)
         {
-            trafficLightState = TrafficLightStates::EMPTY;
+            trafficLightState = States::EMPTY;
             currentYellowSwitchesCount++;
         }
-        else if (currentDirection == ColorChangeDirection::FORWARD)
+        else if (currentDirection == SwitchDirection::FORWARD)
         {
             isYellowBlinking = false;
             currentYellowSwitchesCount = 0;
-            trafficLightState = TrafficLightStates::GREEN;
+            trafficLightState = States::GREEN;
         }
         else
         {
             isYellowBlinking = false;
             currentYellowSwitchesCount = 0;
-            trafficLightState = TrafficLightStates::RED;
+            trafficLightState = States::RED;
         }
         break;
-    case TrafficLightStates::GREEN:
+    case States::GREEN:
         isYellowBlinking = true;
-        trafficLightState = TrafficLightStates::YELLOW;
-        currentDirection = ColorChangeDirection::REVERSE;
+        trafficLightState = States::YELLOW;
+        currentDirection = SwitchDirection::REVERSE;
         break;
     default:
         break;

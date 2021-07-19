@@ -1,13 +1,5 @@
 #include "Timer.h"
 
-Timer::Timer()
-{
-}
-
-Timer::~Timer()
-{
-}
-
 void Timer::runTimer(const TrafficLight &tl)
 {
     float waitTime = 0;
@@ -16,22 +8,22 @@ void Timer::runTimer(const TrafficLight &tl)
 
     switch (tl.trafficLightState)
     {
-    case TrafficLightStates::EMPTY:
+    case TrafficLight::States::EMPTY:
         if (tl.isYellowBlinking)
         {
             waitTime = float(tl.yellowTimeBlinkFrequency);
         }
         break;
-    case TrafficLightStates::RED:
+    case TrafficLight::States::RED:
         waitTime = float(tl.redTimeSwitch);
         break;
-    case TrafficLightStates::YELLOW:
+    case TrafficLight::States::YELLOW:
         if (tl.isYellowBlinking)
         {
             waitTime = float(tl.yellowTimeBlinkFrequency);
         }
         break;
-    case TrafficLightStates::GREEN:
+    case TrafficLight::States::GREEN:
         waitTime = float(tl.greenTimeSwitch);
         break;
     default:

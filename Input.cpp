@@ -1,18 +1,11 @@
 #include "Input.h"
 
-Input::Input()
-{
-}
-Input::~Input()
-{
-}
+#include <conio.h>
 
 void Input::handleInput(TrafficLight &tl)
 {
     while (!tl.isFinished)
     {
-        // Видел инфу, что этот метод, как и саму библиотеку conio - не рекомендуют использовать
-        // Но другие варианты не смог закодить(пробовал future + async - не завёлся)
         pressedKey = getch();
 
         switch (pressedKey)
