@@ -1,36 +1,21 @@
 #include "Timer.h"
 
-void Timer::runTimer(const TrafficLight &tl)
+#include <thread>
+
+void Timer::runTimer(std::chrono::seconds delay, std::function<void()> callback, bool isAsync)
 {
-    float waitTime = 0;
-
-    time(&lastSwitchTime);
-
-    switch (tl.trafficLightState)
+    if (isAsync)
     {
-    case TrafficLight::States::EMPTY:
-        if (tl.isYellowBlinking)
-        {
-            waitTime = float(tl.yellowTimeBlinkFrequency);
-        }
-        break;
-    case TrafficLight::States::RED:
-        waitTime = float(tl.redTimeSwitch);
-        break;
-    case TrafficLight::States::YELLOW:
-        if (tl.isYellowBlinking)
-        {
-            waitTime = float(tl.yellowTimeBlinkFrequency);
-        }
-        break;
-    case TrafficLight::States::GREEN:
-        waitTime = float(tl.greenTimeSwitch);
-        break;
-    default:
-        break;
+        std::thread([=]
+                    {
+                        std::this_thread::sleep_for(std::chrono::seconds(delay));
+                        callback();
+                    })
+            .detach();
     }
-
-    while (difftime(time(&nextSwitchCounter), lastSwitchTime) != waitTime)
+    else
     {
+        std::this_thread::sleep_for(std::chrono::seconds(delay));
+        callback();
     }
 }

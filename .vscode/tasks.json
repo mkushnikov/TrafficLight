@@ -8,6 +8,7 @@
                 "-g",
                 "${file}",
                 "Input.cpp",
+                "Output.cpp",
                 "Timer.cpp",
                 "TrafficLight.cpp",
                 "-o",

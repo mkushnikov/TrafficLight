@@ -1,42 +1,24 @@
 #include "TrafficLight.h"
 #include "Timer.h"
 #include "Input.h"
+#include "Output.h"
 
 #include <thread>
 
 using std::thread;
 
-TrafficLight myTL;
-Timer myTimer;
-Input myInput;
-
-// Основная функция для вывода
-// Контролирует отрисовку, реагируя на ввод
-void displayTL()
-{
-    // Отрисовка пока не нажали "выход"
-    while (!myTL.isFinished)
-    {
-        // Обновляем, если не "пауза"
-        if (myTL.isStarted)
-        {
-            myTL.clearConsole();
-            myTL.showControllInfo();
-            myTL.updateTLState();
-            myTL.drawTL();
-            myTimer.runTimer(myTL);
-        }
-    }
-}
-
 int main()
 {
-    // Запускаем потоки на ввод/вывод
-    thread input([]
-                 { myInput.handleInput(myTL); });
-    thread output(displayTL);
+    TrafficLight myTL;
+    Timer myTimer;
+    // Input myInput;
+    Output myOutput;
 
-    // Освобождаем основной поток
-    input.join();
-    output.join();
+    while (true)
+    {
+        myOutput.showControllInfo();
+        myOutput.drawTL(myTL.trafficLightState);
+        myTimer.runTimer(std::chrono::seconds(myTL.currentSwitchTime), std::bind(&TrafficLight::updateTLState, &myTL), false);
+        myOutput.clearConsole();
+    }
 }
