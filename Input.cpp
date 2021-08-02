@@ -2,9 +2,9 @@
 
 #include <conio.h>
 
-void Input::handleInput(TrafficLight &tl)
+void Input::handleInput()
 {
-    while (!tl.isFinished)
+    while (true)
     {
         pressedKey = getch();
 
@@ -12,15 +12,18 @@ void Input::handleInput(TrafficLight &tl)
         {
         case 'S':
         case 's':
-            tl.isStarted = true;
+            tlCb.startCallback();
+            timerCb.startCallback();
             break;
         case 'P':
         case 'p':
-            tl.isStarted = false;
+            tlCb.pauseCallback();
+            timerCb.pauseCallback();
             break;
         case 'E':
         case 'e':
-            tl.isFinished = true;
+            tlCb.exitCallback();
+            timerCb.exitCallback();
             break;
         default:
             break;

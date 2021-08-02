@@ -1,7 +1,6 @@
 #ifndef TRAFFICLIGHT_H_
 #define TRAFFICLIGHT_H_
 
-
 class TrafficLight
 {
 private:
@@ -35,7 +34,7 @@ public:
     static const int yellowTimeBlinkFrequency;
 
     // Определяет, запущено переключение или нет
-    bool isStarted;
+    bool isPaused;
     // Используется для завершения работы светофора
     bool isFinished;
     // Используется для смены состояний светофора по время мигания жёлтого
@@ -52,8 +51,12 @@ public:
     // Обновляем стейт светофора для следующего круга отрисовки
     void updateTLState();
 
+    void onPauseButtonPressed();
+    void onStartButtonPressed();
+    void onExitButtonPressed();
+
     TrafficLight()
-        : isStarted(true),
+        : isPaused(false),
           isFinished(false),
           isYellowBlinking(false),
           currentSwitchTime(0),

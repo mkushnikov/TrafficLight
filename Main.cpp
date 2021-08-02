@@ -11,14 +11,27 @@ int main()
 {
     TrafficLight myTL;
     Timer myTimer;
-    // Input myInput;
+    Input myInput(
+        std::bind(&TrafficLight::onStartButtonPressed, &myTL),
+        std::bind(&TrafficLight::onPauseButtonPressed, &myTL),
+        std::bind(&TrafficLight::onExitButtonPressed, &myTL),
+        std::bind(&Timer::onStartButtonPressed, &myTimer),
+        std::bind(&Timer::onPauseButtonPressed, &myTimer),
+        std::bind(&Timer::onExitButtonPressed, &myTimer));
     Output myOutput;
 
-    while (true)
+    thread input(&Input::handleInput, myInput);
+
+    while (!myTL.isFinished)
     {
-        myOutput.showControllInfo();
-        myOutput.drawTL(myTL.trafficLightState);
-        myTimer.runTimer(std::chrono::seconds(myTL.currentSwitchTime), std::bind(&TrafficLight::updateTLState, &myTL), false);
-        myOutput.clearConsole();
+        if (!myTL.isPaused && !myTimer.isRunning)
+        {
+            myOutput.clearConsole();
+            myOutput.showControllInfo();
+            myOutput.drawTL(myTL.trafficLightState);
+            myTimer.runTimer(std::chrono::milliseconds(myTL.currentSwitchTime * 1000), std::bind(&TrafficLight::updateTLState, &myTL));
+        }
     }
+
+    input.detach();
 }

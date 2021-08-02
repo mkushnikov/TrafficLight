@@ -1,11 +1,5 @@
 #include "TrafficLight.h"
 
-#include <iostream>
-
-using std::cout;
-using std::endl;
-using std::string;
-
 const int TrafficLight::yellowTimeBlinkFrequency = 1;
 const int TrafficLight::yellowSwitchesMaxCount = 4;
 const int TrafficLight::redTimeSwitch = 2;
@@ -63,4 +57,19 @@ void TrafficLight::updateTLState()
     default:
         break;
     }
+}
+
+void TrafficLight::onStartButtonPressed()
+{
+    isPaused = false;
+}
+
+void TrafficLight::onPauseButtonPressed()
+{
+    isPaused = true;
+}
+
+void TrafficLight::onExitButtonPressed()
+{
+    isFinished = true;
 }
