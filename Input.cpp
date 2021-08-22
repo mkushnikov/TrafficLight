@@ -6,27 +6,21 @@ void Input::handleInput()
 {
     while (true)
     {
-        pressedKey = getch();
+        pressedKey_ = getch();
 
-        switch (pressedKey)
-        {
-        case 'S':
-        case 's':
-            tlCb.startCallback();
-            timerCb.startCallback();
-            break;
-        case 'P':
-        case 'p':
-            tlCb.pauseCallback();
-            timerCb.pauseCallback();
-            break;
-        case 'E':
-        case 'e':
-            tlCb.exitCallback();
-            timerCb.exitCallback();
-            break;
-        default:
-            break;
-        }
+        notifySubs();
     }
+}
+
+void Input::notifySubs()
+{
+    for (auto callback : subsList_)
+    {
+        callback(pressedKey_);
+    }
+}
+
+void Input::addSub(std::function<void(char pressedKey)> subCallback)
+{
+    subsList_.push_back(subCallback);
 }

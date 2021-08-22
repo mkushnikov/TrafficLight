@@ -21,7 +21,7 @@ void Output::clearConsole()
     system("cls");
 }
 
-const std::vector<std::string> Output::emptyCircle = {
+const std::vector<std::string> Output::emptyCircle_ = {
     "    ---   ",
     "  /     \\  ",
     " /       \\ ",
@@ -30,7 +30,7 @@ const std::vector<std::string> Output::emptyCircle = {
     "  \\     /  ",
     "    ---    "};
 
-const std::vector<std::string> Output::redCircle = {
+const std::vector<std::string> Output::redCircle_ = {
     "    ---   ",
     "  / RRR \\  ",
     " / RRRRR \\ ",
@@ -39,7 +39,7 @@ const std::vector<std::string> Output::redCircle = {
     "  \\ RRR /  ",
     "    ---    "};
 
-const std::vector<std::string> Output::yellowCircle = {
+const std::vector<std::string> Output::yellowCircle_ = {
     "    ---   ",
     "  / YYY \\  ",
     " / YYYYY \\ ",
@@ -48,7 +48,7 @@ const std::vector<std::string> Output::yellowCircle = {
     "  \\ YYY /  ",
     "    ---    "};
 
-const std::vector<std::string> Output::greenCircle = {
+const std::vector<std::string> Output::greenCircle_ = {
     "    ---   ",
     "  / GGG \\  ",
     " / GGGGG \\ ",
@@ -67,30 +67,30 @@ void Output::showLight(std::vector<std::string> circle)
 
 void Output::drawEmpty()
 {
-    showLight(emptyCircle);
-    showLight(emptyCircle);
-    showLight(emptyCircle);
+    showLight(emptyCircle_);
+    showLight(emptyCircle_);
+    showLight(emptyCircle_);
 }
 
 void Output::drawRed()
 {
-    showLight(redCircle);
-    showLight(emptyCircle);
-    showLight(emptyCircle);
+    showLight(redCircle_);
+    showLight(emptyCircle_);
+    showLight(emptyCircle_);
 }
 
 void Output::drawYellow()
 {
-    showLight(emptyCircle);
-    showLight(yellowCircle);
-    showLight(emptyCircle);
+    showLight(emptyCircle_);
+    showLight(yellowCircle_);
+    showLight(emptyCircle_);
 }
 
 void Output::drawGreen()
 {
-    showLight(emptyCircle);
-    showLight(emptyCircle);
-    showLight(greenCircle);
+    showLight(emptyCircle_);
+    showLight(emptyCircle_);
+    showLight(greenCircle_);
 }
 
 void Output::drawTL(TrafficLight::States currentState)

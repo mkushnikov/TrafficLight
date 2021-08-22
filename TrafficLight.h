@@ -1,13 +1,20 @@
 #ifndef TRAFFICLIGHT_H_
 #define TRAFFICLIGHT_H_
 
+#include "Timer.h"
+
 class TrafficLight
 {
 private:
     //Макс. кол-во миганий для жёлтого
-    static const int yellowSwitchesMaxCount;
+    static const int yellowSwitchesMaxCount_;
     // Счётчик миганий
-    int currentYellowSwitchesCount;
+    int currentYellowSwitchesCount_;
+
+    //Функции для реакции на ввод
+    void onPauseButtonPressed();
+    void onStartButtonPressed();
+    void onExitButtonPressed();
 
 public:
     // Список состояний светофора для отрисовки
@@ -34,7 +41,7 @@ public:
     static const int yellowTimeBlinkFrequency;
 
     // Определяет, запущено переключение или нет
-    bool isPaused;
+    bool isStopped;
     // Используется для завершения работы светофора
     bool isFinished;
     // Используется для смены состояний светофора по время мигания жёлтого
@@ -48,21 +55,27 @@ public:
     // Направление переключений
     SwitchDirection currentDirection;
 
+    //Таймер для переключений светофора
+    Timer myTimer;
+
+    //Переменная для хранения кол-ва времени в случае Паузы
+    std::chrono::milliseconds timeRemainingUntilSwitch;
+
     // Обновляем стейт светофора для следующего круга отрисовки
     void updateTLState();
 
-    void onPauseButtonPressed();
-    void onStartButtonPressed();
-    void onExitButtonPressed();
+    //Обработчик ввода
+    void handlePressedKey(char pressedKey);
 
     TrafficLight()
-        : isPaused(false),
+        : isStopped(false),
           isFinished(false),
           isYellowBlinking(false),
           currentSwitchTime(0),
           trafficLightState(States::EMPTY),
           currentDirection(SwitchDirection::FORWARD),
-          currentYellowSwitchesCount(0)
+          timeRemainingUntilSwitch(std::chrono::milliseconds(0)),
+          currentYellowSwitchesCount_(0)
     {
     }
 };

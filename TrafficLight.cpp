@@ -1,7 +1,10 @@
 #include "TrafficLight.h"
 
+#include <iostream>
+#include <string>
+
 const int TrafficLight::yellowTimeBlinkFrequency = 1;
-const int TrafficLight::yellowSwitchesMaxCount = 4;
+const int TrafficLight::yellowSwitchesMaxCount_ = 4;
 const int TrafficLight::redTimeSwitch = 2;
 const int TrafficLight::greenTimeSwitch = 3;
 
@@ -13,7 +16,7 @@ void TrafficLight::updateTLState()
         if (isYellowBlinking)
         {
             trafficLightState = States::YELLOW;
-            currentYellowSwitchesCount++;
+            currentYellowSwitchesCount_++;
         }
         else
         {
@@ -28,22 +31,22 @@ void TrafficLight::updateTLState()
         currentSwitchTime = yellowTimeBlinkFrequency;
         break;
     case States::YELLOW:
-        if (isYellowBlinking && currentYellowSwitchesCount < yellowSwitchesMaxCount)
+        if (isYellowBlinking && currentYellowSwitchesCount_ < yellowSwitchesMaxCount_)
         {
             trafficLightState = States::EMPTY;
-            currentYellowSwitchesCount++;
+            currentYellowSwitchesCount_++;
         }
         else if (currentDirection == SwitchDirection::FORWARD)
         {
             isYellowBlinking = false;
-            currentYellowSwitchesCount = 0;
+            currentYellowSwitchesCount_ = 0;
             trafficLightState = States::GREEN;
             currentSwitchTime = greenTimeSwitch;
         }
         else
         {
             isYellowBlinking = false;
-            currentYellowSwitchesCount = 0;
+            currentYellowSwitchesCount_ = 0;
             trafficLightState = States::RED;
             currentSwitchTime = redTimeSwitch;
         }
@@ -59,14 +62,37 @@ void TrafficLight::updateTLState()
     }
 }
 
+void TrafficLight::handlePressedKey(char pressedKey)
+{
+    switch (pressedKey)
+    {
+    case 'S':
+    case 's':
+        onStartButtonPressed();
+        break;
+    case 'P':
+    case 'p':
+        onPauseButtonPressed();
+        break;
+    case 'E':
+    case 'e':
+        onExitButtonPressed();
+        break;
+    default:
+        break;
+    }
+}
+
 void TrafficLight::onStartButtonPressed()
 {
-    isPaused = false;
+    isStopped = false;
 }
 
 void TrafficLight::onPauseButtonPressed()
 {
-    isPaused = true;
+    isStopped = true;
+    timeRemainingUntilSwitch = myTimer.stopTimer();
+    std::cout << "Paused. Time remaining: " + std::to_string(timeRemainingUntilSwitch.count()) + "ms" << std::endl;
 }
 
 void TrafficLight::onExitButtonPressed()

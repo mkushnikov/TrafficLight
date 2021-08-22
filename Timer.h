@@ -7,25 +7,30 @@
 class Timer
 {
 private:
-    bool isPaused;
-    bool isInterrupted;
-    std::chrono::milliseconds updateStep;
+    //Интервал для обновления таймера
+    std::chrono::milliseconds updateStep_;
+
+    //Прерывание таймера по вводу
+    bool isInterrupted_;
+
+    //Переменная для хранения кол-ва оставшегося времени при прерывании
+    std::chrono::milliseconds timeRemains_;
 
 public:
+    //Флаг для проверки, запущен ли таймер
     bool isRunning;
 
-    void onPauseButtonPressed();
-    void onStartButtonPressed();
-    void onExitButtonPressed();
-    // Запускаем таймер и вызываем функцию после окончания
+    // Запускаем таймер и вызываем функцию по окончании
     void runTimer(std::chrono::milliseconds delay,
                   std::function<void()> callback);
 
+    //Функция для прерывания таймера
+    std::chrono::milliseconds stopTimer();
+
     Timer()
-        : updateStep(std::chrono::milliseconds(100)),
-          isRunning(false),
-          isPaused(false),
-          isInterrupted(false)
+        : updateStep_(std::chrono::milliseconds(100)),
+          isInterrupted_(false),
+          isRunning(false)
     {
     }
 };

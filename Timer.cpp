@@ -5,38 +5,40 @@
 void Timer::runTimer(std::chrono::milliseconds delay, std::function<void()> callback)
 {
     isRunning = true;
-    std::thread([=]
+
+    std::thread([&, delay]
                 {
                     std::chrono::milliseconds counter = std::chrono::milliseconds(0);
-                    while (counter < delay && !isInterrupted)
+                    while (counter < delay && !isInterrupted_)
                     {
-                        if (!isPaused)
-                        {
-                            std::this_thread::sleep_for(updateStep);
-                            counter += updateStep;
-                        }
+                        std::this_thread::sleep_for(updateStep_);
+                        counter += updateStep_;
                     }
 
-                    if (!isInterrupted)
+                    if (!isInterrupted_)
                     {
                         callback();
                     }
+                    else
+                    {
+                        timeRemains_ = delay - counter;
+                    }
+
                     isRunning = false;
                 })
         .detach();
 }
 
-void Timer::onStartButtonPressed()
+std::chrono::milliseconds Timer::stopTimer()
 {
-    isPaused = false;
-}
+    isInterrupted_ = true;
 
-void Timer::onPauseButtonPressed()
-{
-    isPaused = true;
-}
+    while (isRunning)
+    {
+        std::this_thread::sleep_for(updateStep_);
+    }
 
-void Timer::onExitButtonPressed()
-{
-    isInterrupted = true;
+    isInterrupted_ = false;
+
+    return timeRemains_;
 }

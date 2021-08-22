@@ -10,13 +10,13 @@ class Output
 {
 private:
     // Символьная графика для цветов светофора
-    static const std::vector<std::string> emptyCircle;
+    static const std::vector<std::string> emptyCircle_;
 
-    static const std::vector<std::string> redCircle;
+    static const std::vector<std::string> redCircle_;
 
-    static const std::vector<std::string> yellowCircle;
+    static const std::vector<std::string> yellowCircle_;
 
-    static const std::vector<std::string> greenCircle;
+    static const std::vector<std::string> greenCircle_;
 
     // Функция для отрисовки цветов светофора
     void showLight(std::vector<std::string> circle);
