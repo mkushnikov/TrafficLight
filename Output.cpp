@@ -21,7 +21,7 @@ void Output::clearConsole()
     system("cls");
 }
 
-const std::vector<std::string> Output::emptyCircle_ = {
+const std::vector<std::string_view> Output::emptyCircle_ = {
     "    ---   ",
     "  /     \\  ",
     " /       \\ ",
@@ -30,7 +30,7 @@ const std::vector<std::string> Output::emptyCircle_ = {
     "  \\     /  ",
     "    ---    "};
 
-const std::vector<std::string> Output::redCircle_ = {
+const std::vector<std::string_view> Output::redCircle_ = {
     "    ---   ",
     "  / RRR \\  ",
     " / RRRRR \\ ",
@@ -39,7 +39,7 @@ const std::vector<std::string> Output::redCircle_ = {
     "  \\ RRR /  ",
     "    ---    "};
 
-const std::vector<std::string> Output::yellowCircle_ = {
+const std::vector<std::string_view> Output::yellowCircle_ = {
     "    ---   ",
     "  / YYY \\  ",
     " / YYYYY \\ ",
@@ -48,7 +48,7 @@ const std::vector<std::string> Output::yellowCircle_ = {
     "  \\ YYY /  ",
     "    ---    "};
 
-const std::vector<std::string> Output::greenCircle_ = {
+const std::vector<std::string_view> Output::greenCircle_ = {
     "    ---   ",
     "  / GGG \\  ",
     " / GGGGG \\ ",
@@ -57,7 +57,7 @@ const std::vector<std::string> Output::greenCircle_ = {
     "  \\ GGG /  ",
     "    ---    "};
 
-void Output::showLight(std::vector<std::string> circle)
+void Output::showLight(const std::vector<std::string_view> &circle)
 {
     for (auto line : circle)
     {
