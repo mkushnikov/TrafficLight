@@ -4,8 +4,6 @@
 
 #include <thread>
 
-using std::thread;
-
 int main()
 {
     TrafficLight myTL;
@@ -15,7 +13,7 @@ int main()
     myInput.addSub([&](char k)
                    { myTL.handlePressedKey(k); });
 
-    thread input(&Input::handleInput, myInput);
+    std::thread input(&Input::handleInput, myInput);
 
     while (!myTL.isFinished)
     {

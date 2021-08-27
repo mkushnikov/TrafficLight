@@ -3,17 +3,15 @@
 #include "Output.h"
 
 using std::cout;
-using std::endl;
-using std::vector;
 
 void Output::showControllInfo()
 {
-    cout << "The Traffic Light @kust" << endl;
-    cout << "Press P to pause" << endl;
-    cout << "Press S to start" << endl;
-    cout << "Press E to exit" << endl;
-    cout << "Enjoy!" << endl;
-    cout << endl;
+    cout << "The Traffic Light @kust\n";
+    cout << "Press P to pause\n";
+    cout << "Press S to start\n";
+    cout << "Press E to exit\n";
+    cout << "Enjoy!\n";
+    cout << "\n";
 }
 
 void Output::clearConsole()
@@ -61,7 +59,7 @@ void Output::showLight(const std::vector<std::string_view> &circle)
 {
     for (auto line : circle)
     {
-        cout << line << endl;
+        cout << line << "\n";
     }
 }
 
