@@ -1,12 +1,12 @@
 #include <iostream>
 
-#include "Output.h"
+#include "TrafficLightDrawer.h"
 
 using std::cout;
 
-void Output::showControllInfo()
+void TrafficLightDrawer::showControllInfo()
 {
-    cout << "The Traffic Light @kust\n";
+    cout << "The Traffic Light @mkushnikov\n";
     cout << "Press P to pause\n";
     cout << "Press S to start\n";
     cout << "Press E to exit\n";
@@ -14,12 +14,12 @@ void Output::showControllInfo()
     cout << "\n";
 }
 
-void Output::clearConsole()
+void TrafficLightDrawer::clearConsole()
 {
     system("cls");
 }
 
-const std::vector<std::string_view> Output::emptyCircle_ = {
+const std::vector<std::string_view> TrafficLightDrawer::emptyCircle_ = {
     "    ---   ",
     "  /     \\  ",
     " /       \\ ",
@@ -28,7 +28,7 @@ const std::vector<std::string_view> Output::emptyCircle_ = {
     "  \\     /  ",
     "    ---    "};
 
-const std::vector<std::string_view> Output::redCircle_ = {
+const std::vector<std::string_view> TrafficLightDrawer::redCircle_ = {
     "    ---   ",
     "  / RRR \\  ",
     " / RRRRR \\ ",
@@ -37,7 +37,7 @@ const std::vector<std::string_view> Output::redCircle_ = {
     "  \\ RRR /  ",
     "    ---    "};
 
-const std::vector<std::string_view> Output::yellowCircle_ = {
+const std::vector<std::string_view> TrafficLightDrawer::yellowCircle_ = {
     "    ---   ",
     "  / YYY \\  ",
     " / YYYYY \\ ",
@@ -46,7 +46,7 @@ const std::vector<std::string_view> Output::yellowCircle_ = {
     "  \\ YYY /  ",
     "    ---    "};
 
-const std::vector<std::string_view> Output::greenCircle_ = {
+const std::vector<std::string_view> TrafficLightDrawer::greenCircle_ = {
     "    ---   ",
     "  / GGG \\  ",
     " / GGGGG \\ ",
@@ -55,7 +55,7 @@ const std::vector<std::string_view> Output::greenCircle_ = {
     "  \\ GGG /  ",
     "    ---    "};
 
-void Output::showLight(const std::vector<std::string_view> &circle)
+void TrafficLightDrawer::showLight(const std::vector<std::string_view> &circle)
 {
     for (auto line : circle)
     {
@@ -63,51 +63,30 @@ void Output::showLight(const std::vector<std::string_view> &circle)
     }
 }
 
-void Output::drawEmpty()
+void TrafficLightDrawer::drawEmpty()
 {
     showLight(emptyCircle_);
     showLight(emptyCircle_);
     showLight(emptyCircle_);
 }
 
-void Output::drawRed()
+void TrafficLightDrawer::drawRed()
 {
     showLight(redCircle_);
     showLight(emptyCircle_);
     showLight(emptyCircle_);
 }
 
-void Output::drawYellow()
+void TrafficLightDrawer::drawYellow()
 {
     showLight(emptyCircle_);
     showLight(yellowCircle_);
     showLight(emptyCircle_);
 }
 
-void Output::drawGreen()
+void TrafficLightDrawer::drawGreen()
 {
     showLight(emptyCircle_);
     showLight(emptyCircle_);
     showLight(greenCircle_);
-}
-
-void Output::drawTL(TrafficLight::States currentState)
-{
-    switch (currentState)
-    {
-    case TrafficLight::States::EMPTY:
-        drawEmpty();
-        break;
-    case TrafficLight::States::RED:
-        drawRed();
-        break;
-    case TrafficLight::States::YELLOW:
-        drawYellow();
-        break;
-    case TrafficLight::States::GREEN:
-        drawGreen();
-        break;
-    default:
-        break;
-    }
 }

@@ -3,6 +3,7 @@
 
 #include <chrono>
 #include <functional>
+#include <thread>
 
 class Timer
 {
@@ -16,9 +17,12 @@ private:
     //Переменная для хранения кол-ва оставшегося времени при прерывании
     std::chrono::milliseconds timeRemains_;
 
+    //Поток, в котором запускаем таймер
+    std::thread currentTimerThread_;
+
 public:
-    //Флаг для проверки, запущен ли таймер
-    bool isRunning;
+    //Проверка запущен ли таймер
+    bool isTimerRunning();
 
     // Запускаем таймер и вызываем функцию по окончании
     void runTimer(std::chrono::milliseconds delay,
@@ -29,8 +33,7 @@ public:
 
     Timer()
         : updateStep_(std::chrono::milliseconds(100)),
-          isInterrupted_(false),
-          isRunning(false)
+          isInterrupted_(false)
     {
     }
 };

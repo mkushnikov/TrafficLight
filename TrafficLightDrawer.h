@@ -1,12 +1,10 @@
-#ifndef OUTPUT_H
-#define OUTPUT_H
+#ifndef DRAWER_H
+#define DRAWER_H
 
 #include <vector>
 #include <string_view>
 
-#include "TrafficLight.h"
-
-class Output
+class TrafficLightDrawer
 {
 private:
     // Символьная графика для цветов светофора
@@ -21,18 +19,16 @@ private:
     // Функция для отрисовки цветов светофора
     void showLight(const std::vector<std::string_view> &circle);
 
-    // Функции для отрисовки светофора в конкретном стейте
-    void drawEmpty();
-    void drawRed();
-    void drawYellow();
-    void drawGreen();
-
 public:
     // Чистка консоли
     void clearConsole();
     // Информация об управлении
     void showControllInfo();
-    // Отрисовываем нужный цвет в зависимости от стейта
-    void drawTL(TrafficLight::States currentState);
+
+    // Функции для отрисовки светофора в конкретном стейте
+    void drawEmpty();
+    void drawRed();
+    void drawYellow();
+    void drawGreen();
 };
 #endif

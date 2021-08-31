@@ -9,7 +9,7 @@
                 "-g",
                 "${file}",
                 "Input.cpp",
-                "Output.cpp",
+                "TrafficLightDrawer.cpp",
                 "Timer.cpp",
                 "TrafficLight.cpp",
                 "-o",

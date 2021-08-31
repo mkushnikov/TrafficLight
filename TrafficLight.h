@@ -2,6 +2,7 @@
 #define TRAFFICLIGHT_H_
 
 #include "Timer.h"
+#include "TrafficLightDrawer.h"
 
 class TrafficLight
 {
@@ -15,6 +16,8 @@ private:
     void onPauseButtonPressed();
     void onStartButtonPressed();
     void onExitButtonPressed();
+
+    TrafficLightDrawer trafficLightDrawer_;
 
 public:
     // Список состояний светофора для отрисовки
@@ -61,8 +64,14 @@ public:
     //Переменная для хранения кол-ва времени в случае Паузы
     std::chrono::milliseconds timeRemainingUntilSwitch;
 
+    //Основной цикл работы светофора
+    void runTrafficLight();
+
     // Обновляем стейт светофора для следующего круга отрисовки
     void updateTLState();
+
+    // Отрисовываем нужный цвет в зависимости от стейта
+    void drawTL(TrafficLight::States currentState);
 
     //Обработчик ввода
     void handlePressedKey(char pressedKey);
