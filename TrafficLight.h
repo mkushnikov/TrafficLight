@@ -17,6 +17,7 @@ private:
     void onStartButtonPressed();
     void onExitButtonPressed();
 
+    // Отрисовка стейтов светофора
     TrafficLightDrawer trafficLightDrawer_;
 
 public:
