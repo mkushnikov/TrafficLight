@@ -13,7 +13,7 @@ int main()
 
     std::thread input(&Input::handleInput, myInput);
 
-    myTL.runTrafficLight();
+    myTL.emulateTrafficLight();
 
     input.detach();
     return 0;

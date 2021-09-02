@@ -8,7 +8,7 @@ const int TrafficLight::yellowSwitchesMaxCount_ = 4;
 const int TrafficLight::redTimeSwitch = 2;
 const int TrafficLight::greenTimeSwitch = 3;
 
-void TrafficLight::runTrafficLight()
+void TrafficLight::emulateTrafficLight()
 {
     while (!isFinished)
     {

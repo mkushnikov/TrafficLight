@@ -65,7 +65,7 @@ public:
     std::chrono::milliseconds timeRemainingUntilSwitch;
 
     //Основной цикл работы светофора
-    void runTrafficLight();
+    void emulateTrafficLight();
 
     // Обновляем стейт светофора для следующего круга отрисовки
     void updateTLState();
