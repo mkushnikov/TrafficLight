@@ -7,22 +7,8 @@
 class TrafficLight
 {
 private:
-    //Макс. кол-во миганий для жёлтого
-    static const int yellowSwitchesMaxCount_;
-    // Счётчик миганий
-    int currentYellowSwitchesCount_;
-
-    //Функции для реакции на ввод
-    void onPauseButtonPressed();
-    void onStartButtonPressed();
-    void onExitButtonPressed();
-
-    // Отрисовка стейтов светофора
-    TrafficLightDrawer trafficLightDrawer_;
-
-public:
     // Список состояний светофора для отрисовки
-    enum States
+    enum STATES
     {
         EMPTY,
         RED,
@@ -31,60 +17,72 @@ public:
     };
 
     // Список направлений переключения цветов
-    enum SwitchDirection
+    enum SWITCH_DIRECTION
     {
         FORWARD,
         REVERSE
     };
 
     // Тайминг для красного цвета
-    static const int redTimeSwitch;
+    static const int redTimeSwitch_;
     // Тайминг для зелёного цвета
-    static const int greenTimeSwitch;
+    static const int greenTimeSwitch_;
     // Частота мигания жёлтого
-    static const int yellowTimeBlinkFrequency;
+    static const int yellowTimeBlinkFrequency_;
+    //Макс. кол-во миганий для жёлтого
+    static const int yellowSwitchesMaxCount_;
+
+    // Счётчик миганий
+    int currentYellowSwitchesCount_;
 
     // Определяет, запущено переключение или нет
-    bool isStopped;
+    bool isStopped_;
     // Используется для завершения работы светофора
-    bool isFinished;
+    bool isFinished_;
     // Используется для смены состояний светофора по время мигания жёлтого
-    bool isYellowBlinking;
+    bool isYellowBlinking_;
 
     // Содержит текущее время мигания
-    int currentSwitchTime;
+    int currentSwitchTime_;
 
-    // Состояние светофора
-    States trafficLightState;
-    // Направление переключений
-    SwitchDirection currentDirection;
+    // Текущее состояние светофора
+    STATES currentTrafficLightState_;
+    // Направление переключения
+    SWITCH_DIRECTION currentSwitchDirection_;
 
     //Таймер для переключений светофора
-    Timer myTimer;
-
+    Timer myTimer_;
     //Переменная для хранения кол-ва времени в случае Паузы
-    std::chrono::milliseconds timeRemainingUntilSwitch;
+    std::chrono::milliseconds timeRemainingUntilSwitch_;
 
-    //Основной цикл работы светофора
-    void emulateTrafficLight();
+    // Отрисовка стейтов светофора
+    TrafficLightDrawer trafficLightDrawer_;
+    // Отрисовываем нужный цвет в зависимости от стейта
+    void drawTL(TrafficLight::STATES currentState);
 
-    // Обновляем стейт светофора для следующего круга отрисовки
+    // Обновляем стейт светофора
     void updateTLState();
 
-    // Отрисовываем нужный цвет в зависимости от стейта
-    void drawTL(TrafficLight::States currentState);
+    //Функции для реакции на ввод
+    void onPauseButtonPressed();
+    void onStartButtonPressed();
+    void onExitButtonPressed();
+
+public:
+    //Основной цикл работы светофора
+    void emulateTrafficLight();
 
     //Обработчик ввода
     void handlePressedKey(char pressedKey);
 
     TrafficLight()
-        : isStopped(false),
-          isFinished(false),
-          isYellowBlinking(false),
-          currentSwitchTime(0),
-          trafficLightState(States::EMPTY),
-          currentDirection(SwitchDirection::FORWARD),
-          timeRemainingUntilSwitch(std::chrono::milliseconds(0)),
+        : isStopped_(false),
+          isFinished_(false),
+          isYellowBlinking_(false),
+          currentSwitchTime_(0),
+          currentTrafficLightState_(STATES::EMPTY),
+          currentSwitchDirection_(SWITCH_DIRECTION::FORWARD),
+          timeRemainingUntilSwitch_(std::chrono::milliseconds(0)),
           currentYellowSwitchesCount_(0)
     {
     }

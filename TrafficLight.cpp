@@ -3,30 +3,30 @@
 #include <iostream>
 #include <string>
 
-const int TrafficLight::yellowTimeBlinkFrequency = 1;
+const int TrafficLight::yellowTimeBlinkFrequency_ = 1;
 const int TrafficLight::yellowSwitchesMaxCount_ = 4;
-const int TrafficLight::redTimeSwitch = 2;
-const int TrafficLight::greenTimeSwitch = 3;
+const int TrafficLight::redTimeSwitch_ = 2;
+const int TrafficLight::greenTimeSwitch_ = 3;
 
 void TrafficLight::emulateTrafficLight()
 {
-    while (!isFinished)
+    while (!isFinished_)
     {
-        if (!isStopped && !myTimer.isTimerRunning())
+        if (!isStopped_ && !myTimer_.isTimerRunning())
         {
             trafficLightDrawer_.clearConsole();
             trafficLightDrawer_.showControllInfo();
-            drawTL(trafficLightState);
-            if (timeRemainingUntilSwitch == std::chrono::milliseconds(0))
+            drawTL(currentTrafficLightState_);
+            if (timeRemainingUntilSwitch_ == std::chrono::milliseconds(0))
             {
-                myTimer.runTimer(std::chrono::milliseconds(currentSwitchTime * 1000), [&]
-                                 { updateTLState(); });
+                myTimer_.runTimer(std::chrono::milliseconds(currentSwitchTime_ * 1000), [&]
+                                  { updateTLState(); });
             }
             else
             {
-                myTimer.runTimer(std::chrono::milliseconds(timeRemainingUntilSwitch), [&]
-                                 { updateTLState(); });
-                timeRemainingUntilSwitch = std::chrono::milliseconds(0);
+                myTimer_.runTimer(std::chrono::milliseconds(timeRemainingUntilSwitch_), [&]
+                                  { updateTLState(); });
+                timeRemainingUntilSwitch_ = std::chrono::milliseconds(0);
             }
         }
     }
@@ -34,72 +34,72 @@ void TrafficLight::emulateTrafficLight()
 
 void TrafficLight::updateTLState()
 {
-    switch (trafficLightState)
+    switch (currentTrafficLightState_)
     {
-    case States::EMPTY:
-        if (isYellowBlinking)
+    case STATES::EMPTY:
+        if (isYellowBlinking_)
         {
-            trafficLightState = States::YELLOW;
+            currentTrafficLightState_ = STATES::YELLOW;
             currentYellowSwitchesCount_++;
         }
         else
         {
-            trafficLightState = States::RED;
-            currentSwitchTime = redTimeSwitch;
+            currentTrafficLightState_ = STATES::RED;
+            currentSwitchTime_ = redTimeSwitch_;
         }
         break;
-    case States::RED:
-        trafficLightState = States::YELLOW;
-        currentDirection = SwitchDirection::FORWARD;
-        isYellowBlinking = true;
-        currentSwitchTime = yellowTimeBlinkFrequency;
+    case STATES::RED:
+        currentTrafficLightState_ = STATES::YELLOW;
+        currentSwitchDirection_ = SWITCH_DIRECTION::FORWARD;
+        isYellowBlinking_ = true;
+        currentSwitchTime_ = yellowTimeBlinkFrequency_;
         break;
-    case States::YELLOW:
-        if (isYellowBlinking && currentYellowSwitchesCount_ < yellowSwitchesMaxCount_)
+    case STATES::YELLOW:
+        if (isYellowBlinking_ && currentYellowSwitchesCount_ < yellowSwitchesMaxCount_)
         {
-            trafficLightState = States::EMPTY;
+            currentTrafficLightState_ = STATES::EMPTY;
             currentYellowSwitchesCount_++;
         }
-        else if (currentDirection == SwitchDirection::FORWARD)
+        else if (currentSwitchDirection_ == SWITCH_DIRECTION::FORWARD)
         {
-            isYellowBlinking = false;
+            isYellowBlinking_ = false;
             currentYellowSwitchesCount_ = 0;
-            trafficLightState = States::GREEN;
-            currentSwitchTime = greenTimeSwitch;
+            currentTrafficLightState_ = STATES::GREEN;
+            currentSwitchTime_ = greenTimeSwitch_;
         }
         else
         {
-            isYellowBlinking = false;
+            isYellowBlinking_ = false;
             currentYellowSwitchesCount_ = 0;
-            trafficLightState = States::RED;
-            currentSwitchTime = redTimeSwitch;
+            currentTrafficLightState_ = STATES::RED;
+            currentSwitchTime_ = redTimeSwitch_;
         }
         break;
-    case States::GREEN:
-        isYellowBlinking = true;
-        trafficLightState = States::YELLOW;
-        currentDirection = SwitchDirection::REVERSE;
-        currentSwitchTime = yellowTimeBlinkFrequency;
+    case STATES::GREEN:
+        isYellowBlinking_ = true;
+        currentTrafficLightState_ = STATES::YELLOW;
+        currentSwitchDirection_ = SWITCH_DIRECTION::REVERSE;
+        currentSwitchTime_ = yellowTimeBlinkFrequency_;
         break;
     default:
         break;
     }
 }
 
-void TrafficLight::drawTL(TrafficLight::States currentState)
+void TrafficLight::drawTL(TrafficLight::STATES currentState)
 {
     switch (currentState)
     {
-    case TrafficLight::States::EMPTY:
+    case TrafficLight::STATES::EMPTY:
         trafficLightDrawer_.drawEmpty();
         break;
-    case TrafficLight::States::RED:
+    case TrafficLight::STATES::RED:
         trafficLightDrawer_.drawRed();
         break;
-    case TrafficLight::States::YELLOW:
+    case TrafficLight::STATES::YELLOW:
         trafficLightDrawer_.drawYellow();
         break;
-    case TrafficLight::States::GREEN:
+    case TrafficLight::STATES::GREEN:
         trafficLightDrawer_.drawGreen();
         break;
     default:
@@ -130,20 +130,20 @@ void TrafficLight::handlePressedKey(char pressedKey)
 
 void TrafficLight::onStartButtonPressed()
 {
-    isStopped = false;
+    isStopped_ = false;
 }
 
 void TrafficLight::onPauseButtonPressed()
 {
-    if (myTimer.isTimerRunning())
+    if (myTimer_.isTimerRunning())
     {
-        isStopped = true;
-        timeRemainingUntilSwitch = myTimer.stopTimer();
-        std::cout << "Paused. Time remaining: " + std::to_string(timeRemainingUntilSwitch.count()) + "ms" << std::endl;
+        isStopped_ = true;
+        timeRemainingUntilSwitch_ = myTimer_.stopTimer();
+        std::cout << "Paused. Time remaining: " + std::to_string(timeRemainingUntilSwitch_.count()) + "ms" << std::endl;
     }
 }
 
 void TrafficLight::onExitButtonPressed()
 {
-    isFinished = true;
+    isFinished_ = true;
 }
